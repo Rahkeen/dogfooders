@@ -95,7 +95,6 @@ fun DogStore() {
     }
 }
 
-
 @Preview("Light Theme", showSystemUi = true)
 @Composable
 fun LightPreview() {
