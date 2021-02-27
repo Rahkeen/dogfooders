@@ -15,30 +15,40 @@
  */
 package com.example.androiddevchallenge.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.ui.theme.doggoYellow
 import com.example.androiddevchallenge.ui.theme.typography
+import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
 
+data class HeaderState(val imageUrl: String? = null)
+
+@ExperimentalAnimationApi
 @Composable
-fun Header() {
+fun Header(state: HeaderState) {
     Column(
         modifier = Modifier
             .background(
@@ -63,17 +73,30 @@ fun Header() {
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-           Button(onClick = {}) {
-               Text("Adopt")
-           } 
+            this@Column.AnimatedVisibility(
+                visible = state.imageUrl != null,
+                enter = expandIn(expandFrom = Alignment.Center),
+                exit = shrinkOut(shrinkTowards = Alignment.Center)
+            ) {
+                CoilImage(
+                    data = state.imageUrl!!,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .width(50.dp)
+                        .height(75.dp)
+                        .clip(shape = RoundedCornerShape(16.dp))
+                )
+            }
         }
     }
 }
 
+@ExperimentalAnimationApi
 @Preview(showSystemUi = true)
 @Composable
 fun HeaderPreview() {
     MaterialTheme {
-        Header()
+        Header(HeaderState())
     }
 }

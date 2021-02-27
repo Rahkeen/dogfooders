@@ -18,6 +18,7 @@ package com.example.androiddevchallenge
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.InfiniteRepeatableSpec
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -25,6 +26,7 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,6 +44,9 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,10 +58,12 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.example.androiddevchallenge.data.DogRepository
 import com.example.androiddevchallenge.ui.components.Header
+import com.example.androiddevchallenge.ui.components.HeaderState
 import com.example.androiddevchallenge.ui.theme.DoggoTheme
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
+@ExperimentalAnimationApi
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,24 +78,32 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+@ExperimentalAnimationApi
 @Composable
 fun DoggoApp() {
+    val state = remember { mutableStateOf( HeaderState() )}
+
+    fun dogSelectedAction(url: String?) {
+        if (state.value.imageUrl != url) {
+            state.value = HeaderState(imageUrl = url)
+        }
+    }
     Column(modifier = Modifier.fillMaxSize()) {
-        Header()
+        Header(state.value)
         Spacer(modifier = Modifier.height(16.dp))
-        DogStore()
+        DogStore(::dogSelectedAction)
     }
 }
 
 @Composable
-fun DogStore() {
-    val animation = rememberInfiniteTransition()
-    val rotationState = animation.animateFloat(
-        initialValue = 0F, targetValue = 180F, animationSpec = InfiniteRepeatableSpec(
-            animation = tween(durationMillis = 1000, delayMillis = 1000),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
+fun DogStore(action: (String?) -> Unit) {
+//    val animation = rememberInfiniteTransition()
+//    val rotationState = animation.animateFloat(
+//        initialValue = 0F, targetValue = 180F, animationSpec = InfiniteRepeatableSpec(
+//            animation = tween(durationMillis = 1000, delayMillis = 1000),
+//            repeatMode = RepeatMode.Reverse
+//        )
+//    )
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -100,7 +115,9 @@ fun DogStore() {
 
             Box(modifier = Modifier
                 .wrapContentSize()
-                .graphicsLayer(rotationY = rotationState.value)
+                .clickable {
+                    action(dogUrl)
+                }
             ) {
                 CoilImage(
                     data = dogUrl,
@@ -133,6 +150,7 @@ fun DogStore() {
     }
 }
 
+@ExperimentalAnimationApi
 @Preview("Light Theme", showSystemUi = true)
 @Composable
 fun LightPreview() {
@@ -141,6 +159,7 @@ fun LightPreview() {
     }
 }
 
+@ExperimentalAnimationApi
 @Preview("Dark Theme", showSystemUi = true)
 @Composable
 fun DarkPreview() {
