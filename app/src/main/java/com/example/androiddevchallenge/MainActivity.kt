@@ -19,12 +19,6 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.InfiniteRepeatableSpec
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -39,19 +33,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -91,12 +82,12 @@ fun DoggoApp() {
     Column(modifier = Modifier.fillMaxSize()) {
         Header(state.value)
         Spacer(modifier = Modifier.height(16.dp))
-        DogStore(::dogSelectedAction)
+        DogFeed(::dogSelectedAction)
     }
 }
 
 @Composable
-fun DogStore(action: (String?) -> Unit) {
+fun DogFeed(action: (String?) -> Unit) {
 //    val animation = rememberInfiniteTransition()
 //    val rotationState = animation.animateFloat(
 //        initialValue = 0F, targetValue = 180F, animationSpec = InfiniteRepeatableSpec(
@@ -111,16 +102,15 @@ fun DogStore(action: (String?) -> Unit) {
             .padding(horizontal = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        itemsIndexed(items = DogRepository.doggies) { index, dogUrl ->
-
+        itemsIndexed(items = DogRepository.doggies) { _, dog ->
             Box(modifier = Modifier
                 .wrapContentSize()
                 .clickable {
-                    action(dogUrl)
+                    action(dog.imageUrl)
                 }
             ) {
                 CoilImage(
-                    data = dogUrl,
+                    data = dog.imageUrl,
                     contentDescription = "Doggo Image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -140,7 +130,7 @@ fun DogStore(action: (String?) -> Unit) {
                         )
                 ) {
                     Text(
-                        text = "Dog Name",
+                        text = dog.name,
                         modifier = Modifier
                             .padding(8.dp),
                     )
