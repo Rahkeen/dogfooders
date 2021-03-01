@@ -38,8 +38,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,11 +49,9 @@ import androidx.core.view.WindowCompat
 import com.example.androiddevchallenge.data.DogRepository
 import com.example.androiddevchallenge.data.Skill
 import com.example.androiddevchallenge.ui.components.FeaturedSection
-import com.example.androiddevchallenge.ui.components.HeaderState
-import com.example.androiddevchallenge.ui.components.SectionTag
-import com.example.androiddevchallenge.ui.components.SelectableSkillTag
+import com.example.androiddevchallenge.ui.components.SkillTag
 import com.example.androiddevchallenge.ui.theme.DoggoTheme
-import com.example.androiddevchallenge.ui.theme.doggoYellow
+import com.example.androiddevchallenge.ui.theme.doggoBackground
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
@@ -77,20 +73,17 @@ class MainActivity : AppCompatActivity() {
 @ExperimentalAnimationApi
 @Composable
 fun DoggoApp() {
-    val state = remember { mutableStateOf(HeaderState()) }
-
     fun dogSelectedAction(url: String?) {
-        if (state.value.imageUrl != url) {
-            state.value = HeaderState(imageUrl = url)
-        }
+
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(color = doggoBackground)) {
         TopBar()
         FeaturedSection()
-        SkillSection()
         Spacer(modifier = Modifier.height(16.dp))
-        DogFeed(::dogSelectedAction)
+        SkillSection()
     }
 }
 
@@ -99,38 +92,27 @@ fun TopBar() {
     val topBarModifier = Modifier
         .fillMaxWidth()
         .height(100.dp)
-        .background(color = Color.Blue)
 
     Box(modifier = topBarModifier)
 }
 
 @Composable
 fun SkillSection() {
-    val boxModifier = Modifier
+    val containerModifier = Modifier
         .fillMaxWidth()
-        .height(90.dp)
-    Box(modifier = boxModifier) {
-        val contentModifier = Modifier
-            .fillMaxSize()
-            .background(color = doggoYellow)
-
-        Row(
-            modifier = contentModifier,
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Skill.values().forEach { skill ->
-               SelectableSkillTag(skill = skill)
-            }
+        .wrapContentHeight()
+        .height(80.dp)
+        .padding(horizontal = 32.dp)
+        .background(color = Color.White, shape = RoundedCornerShape(16.dp))
+    Row(
+        modifier = containerModifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Skill.values().forEach { skill ->
+           SkillTag(skill = skill)
         }
-
-        SectionTag(
-            name = "Skills",
-            modifier = Modifier.align(Alignment.TopStart),
-            color = doggoYellow
-        )
     }
-
 }
 
 @Composable

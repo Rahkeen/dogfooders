@@ -22,5 +22,9 @@ val purple500 = Color(0xFF6200EE)
 val purple700 = Color(0xFF3700B3)
 val teal200 = Color(0xFF03DAC5)
 
-val doggoYellow = Color(0xfff8c99a)
-val doggoGray = Color(0xffabb5c9)
+val doggoBackground = Color(0xFFeceff1)
+val doggoRed = Color(0xFFF44336)
+val doggoBlue = Color(0xFF2196f3)
+val doggoGreen = Color(0xFF4caf50)
+val doggoOrange = Color(0xFFff9800)
+

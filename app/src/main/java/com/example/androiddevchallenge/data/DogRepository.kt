@@ -4,6 +4,11 @@ import androidx.compose.ui.graphics.Color
 import com.example.androiddevchallenge.data.Skill.Fetch
 import com.example.androiddevchallenge.data.Skill.Sit
 import com.example.androiddevchallenge.data.Skill.Stay
+import com.example.androiddevchallenge.ui.theme.doggoBackground
+import com.example.androiddevchallenge.ui.theme.doggoBlue
+import com.example.androiddevchallenge.ui.theme.doggoGreen
+import com.example.androiddevchallenge.ui.theme.doggoOrange
+import com.example.androiddevchallenge.ui.theme.doggoRed
 
 data class Dog(
     val name: String,
@@ -15,11 +20,10 @@ data class Dog(
 )
 
 enum class Skill(val color: Color, val title: String) {
-    Fetch(color = Color.Magenta, title = "Fetch"),
-    RollOver(color = Color.Red, title = "Roll Over"),
-    PlayDead(color = Color.Black, title = "Play Dead"),
-    Sit(color = Color.Black, title = "Sit"),
-    Stay(color = Color.Blue, title = "Stay"),
+    Fetch(color = doggoRed, title = "Fetch"),
+    RollOver(color = doggoBlue, title = "Roll Over"),
+    Sit(color = doggoGreen, title = "Sit"),
+    Stay(color = doggoOrange, title = "Stay"),
 }
 
 object DogRepository {
