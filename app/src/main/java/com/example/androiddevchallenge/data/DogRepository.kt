@@ -15,10 +15,10 @@ data class Dog(
 )
 
 enum class Skill(val color: Color, val title: String) {
-    Fetch(color = Color.Green, title = "Fetch"),
+    Fetch(color = Color.Magenta, title = "Fetch"),
     RollOver(color = Color.Red, title = "Roll Over"),
     PlayDead(color = Color.Black, title = "Play Dead"),
-    Sit(color = Color.Yellow, title = "Sit"),
+    Sit(color = Color.Black, title = "Sit"),
     Stay(color = Color.Blue, title = "Stay"),
 }
 
@@ -47,8 +47,7 @@ val BOB = Dog(
     name = "Bob",
     imageUrl = "https://images.unsplash" +
             ".com/photo-1583512603805-3cc6b41f3edb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80",
-    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut " +
-            "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.",
     rating = 5F,
     hourlyRate = 30,
     skills = listOf(Fetch, Sit, Stay)

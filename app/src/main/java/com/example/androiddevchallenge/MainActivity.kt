@@ -24,6 +24,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,9 +49,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.example.androiddevchallenge.data.DogRepository
-import com.example.androiddevchallenge.ui.components.Header
+import com.example.androiddevchallenge.data.Skill
+import com.example.androiddevchallenge.ui.components.FeaturedSection
 import com.example.androiddevchallenge.ui.components.HeaderState
+import com.example.androiddevchallenge.ui.components.SectionTag
+import com.example.androiddevchallenge.ui.components.SelectableSkillTag
 import com.example.androiddevchallenge.ui.theme.DoggoTheme
+import com.example.androiddevchallenge.ui.theme.doggoYellow
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
@@ -72,18 +77,60 @@ class MainActivity : AppCompatActivity() {
 @ExperimentalAnimationApi
 @Composable
 fun DoggoApp() {
-    val state = remember { mutableStateOf( HeaderState() )}
+    val state = remember { mutableStateOf(HeaderState()) }
 
     fun dogSelectedAction(url: String?) {
         if (state.value.imageUrl != url) {
             state.value = HeaderState(imageUrl = url)
         }
     }
+
     Column(modifier = Modifier.fillMaxSize()) {
-        Header(state.value)
+        TopBar()
+        FeaturedSection()
+        SkillSection()
         Spacer(modifier = Modifier.height(16.dp))
         DogFeed(::dogSelectedAction)
     }
+}
+
+@Composable
+fun TopBar() {
+    val topBarModifier = Modifier
+        .fillMaxWidth()
+        .height(100.dp)
+        .background(color = Color.Blue)
+
+    Box(modifier = topBarModifier)
+}
+
+@Composable
+fun SkillSection() {
+    val boxModifier = Modifier
+        .fillMaxWidth()
+        .height(90.dp)
+    Box(modifier = boxModifier) {
+        val contentModifier = Modifier
+            .fillMaxSize()
+            .background(color = doggoYellow)
+
+        Row(
+            modifier = contentModifier,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Skill.values().forEach { skill ->
+               SelectableSkillTag(skill = skill)
+            }
+        }
+
+        SectionTag(
+            name = "Skills",
+            modifier = Modifier.align(Alignment.TopStart),
+            color = doggoYellow
+        )
+    }
+
 }
 
 @Composable
@@ -98,8 +145,7 @@ fun DogFeed(action: (String?) -> Unit) {
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(horizontal = 8.dp),
+            .wrapContentHeight(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         itemsIndexed(items = DogRepository.doggies) { _, dog ->
@@ -117,7 +163,6 @@ fun DogFeed(action: (String?) -> Unit) {
                         .width(200.dp)
                         .height(300.dp)
                         .clip(RoundedCornerShape(16.dp))
-                        ,
                 )
                 Box(
                     modifier = Modifier
@@ -131,8 +176,7 @@ fun DogFeed(action: (String?) -> Unit) {
                 ) {
                     Text(
                         text = dog.name,
-                        modifier = Modifier
-                            .padding(8.dp),
+                        modifier = Modifier.padding(8.dp),
                     )
                 }
             }
