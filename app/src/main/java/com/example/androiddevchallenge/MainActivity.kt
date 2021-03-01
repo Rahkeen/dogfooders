@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.example.androiddevchallenge.data.DogRepository
 import com.example.androiddevchallenge.data.Skill
+import com.example.androiddevchallenge.features.DogProfile
 import com.example.androiddevchallenge.ui.components.FeaturedSection
 import com.example.androiddevchallenge.ui.components.SkillTag
 import com.example.androiddevchallenge.ui.theme.DoggoTheme
@@ -78,13 +79,14 @@ fun DoggoApp() {
             .background(color = doggoBackground)
     ) {
         TopBar()
-        FeaturedSection()
-        Spacer(modifier = Modifier.height(16.dp))
-        SkillSection()
-        Spacer(modifier = Modifier.height(16.dp))
-        DogFeed()
-        Spacer(modifier = Modifier.height(16.dp))
-        TopBar()
+//        FeaturedSection()
+//        Spacer(modifier = Modifier.height(16.dp))
+//        SkillSection()
+//        Spacer(modifier = Modifier.height(16.dp))
+//        DogFeed()
+//        Spacer(modifier = Modifier.height(16.dp))
+//        TopBar()
+        DogProfile()
     }
 }
 
