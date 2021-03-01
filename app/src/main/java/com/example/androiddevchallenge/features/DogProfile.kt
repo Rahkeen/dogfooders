@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.androiddevchallenge.TopBar
 import com.example.androiddevchallenge.data.DogRepository
 import com.example.androiddevchallenge.data.Skill
 import com.example.androiddevchallenge.ui.theme.doggoBlue
@@ -38,6 +39,7 @@ fun DogProfile() {
             .padding(horizontal = 32.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        TopBar()
         val dog = DogRepository.featuredDog
         Row(
             modifier = Modifier
