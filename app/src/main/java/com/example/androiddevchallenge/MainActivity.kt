@@ -19,8 +19,8 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,13 +30,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,6 +52,7 @@ import com.example.androiddevchallenge.ui.theme.doggoBackground
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
+@ExperimentalFoundationApi
 @ExperimentalAnimationApi
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,20 +68,23 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
 fun DoggoApp() {
-    fun dogSelectedAction(url: String?) {
-
-    }
-
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(color = doggoBackground)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = doggoBackground)
+    ) {
         TopBar()
         FeaturedSection()
         Spacer(modifier = Modifier.height(16.dp))
         SkillSection()
+        Spacer(modifier = Modifier.height(16.dp))
+        DogFeed()
+        Spacer(modifier = Modifier.height(16.dp))
+        TopBar()
     }
 }
 
@@ -115,57 +116,31 @@ fun SkillSection() {
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
-fun DogFeed(action: (String?) -> Unit) {
-//    val animation = rememberInfiniteTransition()
-//    val rotationState = animation.animateFloat(
-//        initialValue = 0F, targetValue = 180F, animationSpec = InfiniteRepeatableSpec(
-//            animation = tween(durationMillis = 1000, delayMillis = 1000),
-//            repeatMode = RepeatMode.Reverse
-//        )
-//    )
-    LazyRow(
+fun DogFeed() {
+    LazyVerticalGrid(
+        cells = GridCells.Fixed(2),
         modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+            .fillMaxSize()
+            .padding(horizontal = 2.dp),
     ) {
-        itemsIndexed(items = DogRepository.doggies) { _, dog ->
-            Box(modifier = Modifier
-                .wrapContentSize()
-                .clickable {
-                    action(dog.imageUrl)
-                }
-            ) {
-                CoilImage(
-                    data = dog.imageUrl,
-                    contentDescription = "Doggo Image",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .width(200.dp)
-                        .height(300.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                )
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .wrapContentSize()
-                        .padding(bottom = 8.dp, end = 8.dp)
-                        .background(
-                            color = Color.White,
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                ) {
-                    Text(
-                        text = dog.name,
-                        modifier = Modifier.padding(8.dp),
-                    )
-                }
-            }
-        }
+       items(count = DogRepository.doggies.size) { index ->
+           CoilImage(
+               data = DogRepository.doggies[index].imageUrl,
+               contentDescription = "Doggo Image",
+               contentScale = ContentScale.Crop,
+               modifier = Modifier
+                   .fillMaxWidth()
+                   .height(275.dp)
+                   .padding(horizontal = 2.dp, vertical = 2.dp)
+                   .clip(RoundedCornerShape(16.dp))
+           )
+       }
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Preview("Light Theme", showSystemUi = true)
 @Composable
@@ -175,6 +150,7 @@ fun LightPreview() {
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Preview("Dark Theme", showSystemUi = true)
 @Composable
