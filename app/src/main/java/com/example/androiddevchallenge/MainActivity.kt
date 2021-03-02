@@ -20,8 +20,6 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -41,6 +39,7 @@ import com.example.androiddevchallenge.features.DogProfile
 import com.example.androiddevchallenge.ui.theme.DoggoTheme
 import com.example.androiddevchallenge.ui.theme.doggoBackground
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
+import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -89,7 +88,7 @@ fun DoggoApp() {
 fun TopBar() {
     val topBarModifier = Modifier
         .fillMaxWidth()
-        .height(100.dp)
+        .statusBarsHeight()
 
     Box(modifier = topBarModifier)
 }
