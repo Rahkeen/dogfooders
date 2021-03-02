@@ -1,4 +1,7 @@
-# Template repository
+# Dogfooders
+Just an app to find dogs to test your treats!
+
+Made with 🦴 by Rikin and Sora
 
 Template repository for the Jetpack Compose [#AndroidDevChallenge](https://developer.android.com/dev-challenge).
 
