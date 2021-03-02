@@ -24,7 +24,12 @@ val teal200 = Color(0xFF03DAC5)
 
 val doggoBackground = Color(0xFFeceff1)
 val doggoRed = Color(0xFFF44336)
+val doggoRedLight = Color(0xFFef9a9a)
 val doggoBlue = Color(0xFF2196f3)
+val doggoBlueLight = Color(0xFF90caf9)
 val doggoGreen = Color(0xFF4caf50)
+val doggoGreenLight = Color(0xFFa5d6a7)
 val doggoOrange = Color(0xFFff9800)
+val doggoOrangeLight = Color(0xFFffcc80)
+val doggoGray = Color(0xFF78909c)
 

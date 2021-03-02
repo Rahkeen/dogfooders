@@ -6,9 +6,13 @@ import com.example.androiddevchallenge.data.Skill.Sit
 import com.example.androiddevchallenge.data.Skill.Stay
 import com.example.androiddevchallenge.ui.theme.doggoBackground
 import com.example.androiddevchallenge.ui.theme.doggoBlue
+import com.example.androiddevchallenge.ui.theme.doggoBlueLight
 import com.example.androiddevchallenge.ui.theme.doggoGreen
+import com.example.androiddevchallenge.ui.theme.doggoGreenLight
 import com.example.androiddevchallenge.ui.theme.doggoOrange
+import com.example.androiddevchallenge.ui.theme.doggoOrangeLight
 import com.example.androiddevchallenge.ui.theme.doggoRed
+import com.example.androiddevchallenge.ui.theme.doggoRedLight
 
 data class Dog(
     val name: String,
@@ -19,11 +23,11 @@ data class Dog(
     val skills: List<Skill>
 )
 
-enum class Skill(val color: Color, val title: String) {
-    Fetch(color = doggoRed, title = "Fetch"),
-    RollOver(color = doggoBlue, title = "Roll Over"),
-    Sit(color = doggoGreen, title = "Sit"),
-    Stay(color = doggoOrange, title = "Stay"),
+enum class Skill(val color: Color, val altColor: Color, val title: String) {
+    Fetch(color = doggoRed, altColor = doggoRedLight, title = "Fetch"),
+    Shake(color = doggoBlue, altColor = doggoBlueLight, title = "Shake"),
+    Sit(color = doggoGreen, altColor = doggoGreenLight, title = "Sit"),
+    Stay(color = doggoOrange, altColor = doggoOrangeLight, title = "Stay"),
 }
 
 object DogRepository {

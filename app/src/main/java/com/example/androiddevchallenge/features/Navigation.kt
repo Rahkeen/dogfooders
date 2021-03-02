@@ -1,8 +1,9 @@
-package com.example.androiddevchallenge.data
+package com.example.androiddevchallenge.features
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.example.androiddevchallenge.data.Dog
 
 sealed class Screen {
     object MarketPlace: Screen()

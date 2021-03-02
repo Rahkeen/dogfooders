@@ -27,7 +27,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.TopBar
 import com.example.androiddevchallenge.data.Dog
-import com.example.androiddevchallenge.data.Navigator
 import com.example.androiddevchallenge.data.Skill
 import com.example.androiddevchallenge.ui.theme.doggoBlue
 import com.example.androiddevchallenge.ui.theme.doggoGreen
