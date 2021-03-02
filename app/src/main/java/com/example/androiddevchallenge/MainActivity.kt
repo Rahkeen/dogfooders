@@ -30,10 +30,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
-import com.example.androiddevchallenge.features.Navigator
-import com.example.androiddevchallenge.features.Screen
 import com.example.androiddevchallenge.features.DogMarketplace
 import com.example.androiddevchallenge.features.DogProfile
+import com.example.androiddevchallenge.features.Navigator
+import com.example.androiddevchallenge.features.Screen
 import com.example.androiddevchallenge.ui.theme.DoggoTheme
 import com.example.androiddevchallenge.ui.theme.doggoBackground
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
@@ -65,12 +65,13 @@ class MainActivity : AppCompatActivity() {
 @ExperimentalAnimationApi
 @Composable
 fun DoggoApp() {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(color = doggoBackground)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = doggoBackground)
     ) {
         Crossfade(targetState = Navigator.currentScreen) { screen ->
-            when(screen) {
+            when (screen) {
                 is Screen.MarketPlace -> {
                     DogMarketplace()
                 }

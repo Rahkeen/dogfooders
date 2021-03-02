@@ -32,4 +32,3 @@ val doggoGreenLight = Color(0xFFa5d6a7)
 val doggoOrange = Color(0xFFff9800)
 val doggoOrangeLight = Color(0xFFffcc80)
 val doggoGray = Color(0xFF78909c)
-
