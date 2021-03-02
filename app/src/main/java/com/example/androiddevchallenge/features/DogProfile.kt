@@ -23,16 +23,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.TopBar
-import com.example.androiddevchallenge.data.DogRepository
+import com.example.androiddevchallenge.data.Dog
+import com.example.androiddevchallenge.data.Navigator
 import com.example.androiddevchallenge.data.Skill
 import com.example.androiddevchallenge.ui.theme.doggoBlue
 import com.example.androiddevchallenge.ui.theme.doggoGreen
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
-fun DogProfile() {
+fun DogProfile(dog: Dog) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -40,7 +42,6 @@ fun DogProfile() {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         TopBar()
-        val dog = DogRepository.featuredDog
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -52,8 +53,9 @@ fun DogProfile() {
                 contentDescription = "Doggo",
                 modifier = Modifier
                     .width(150.dp)
-                    .fillMaxHeight()
-                    .clip(RoundedCornerShape(16.dp))
+                    .height(150.dp)
+                    .clip(RoundedCornerShape(16.dp)),
+                contentScale = ContentScale.Crop
             )
             Column(
                 modifier = Modifier
@@ -170,7 +172,7 @@ fun DogProfile() {
         // Buttons
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                ProfileButton(text = "Back")
+                ProfileButton(text = "Back", action = { Navigator.onBackPressed() })
                 ProfileButton(text = "Hire", textColor = Color.White, backgroundColor = doggoBlue)
             }
         }

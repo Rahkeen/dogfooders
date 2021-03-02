@@ -2,6 +2,7 @@ package com.example.androiddevchallenge.features
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.TopBar
 import com.example.androiddevchallenge.data.DogRepository
+import com.example.androiddevchallenge.data.Navigator
+import com.example.androiddevchallenge.data.Screen
 import com.example.androiddevchallenge.data.Skill
 import com.example.androiddevchallenge.ui.components.FeaturedSection
 import com.example.androiddevchallenge.ui.components.SkillTag
@@ -73,8 +76,9 @@ fun DogFeed() {
             .padding(horizontal = 2.dp),
     ) {
         items(count = DogRepository.doggies.size) { index ->
+            val dog = DogRepository.doggies[index]
             CoilImage(
-                data = DogRepository.doggies[index].imageUrl,
+                data = dog.imageUrl,
                 contentDescription = "Doggo Image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -82,6 +86,9 @@ fun DogFeed() {
                     .height(275.dp)
                     .padding(horizontal = 2.dp, vertical = 2.dp)
                     .clip(RoundedCornerShape(16.dp))
+                    .clickable {
+                        Navigator.navigateTo(Screen.Profile(dog))
+                    }
             )
         }
     }

@@ -18,7 +18,10 @@ package com.example.androiddevchallenge
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -31,6 +34,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import com.example.androiddevchallenge.data.Navigator
+import com.example.androiddevchallenge.data.Screen
 import com.example.androiddevchallenge.features.DogMarketplace
 import com.example.androiddevchallenge.features.DogProfile
 import com.example.androiddevchallenge.ui.theme.DoggoTheme
@@ -51,6 +56,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onBackPressed() {
+        if (!Navigator.onBackPressed()) {
+            super.onBackPressed()
+        }
+    }
 }
 
 @ExperimentalFoundationApi
@@ -61,8 +72,16 @@ fun DoggoApp() {
         .fillMaxSize()
         .background(color = doggoBackground)
     ) {
-        DogMarketplace()
-//        DogProfile()
+        Crossfade(targetState = Navigator.currentScreen) { screen ->
+            when(screen) {
+                is Screen.MarketPlace -> {
+                    DogMarketplace()
+                }
+                is Screen.Profile -> {
+                    DogProfile(screen.dog)
+                }
+            }
+        }
     }
 }
 
