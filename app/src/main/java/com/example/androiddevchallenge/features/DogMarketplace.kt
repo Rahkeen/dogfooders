@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.TopBar
 import com.example.androiddevchallenge.data.DogRepository
 import com.example.androiddevchallenge.data.Skill
+import com.example.androiddevchallenge.data.UpdateSkill
 import com.example.androiddevchallenge.ui.components.FeaturedSection
 import com.example.androiddevchallenge.ui.components.SelectableTagState
 import dev.chrisbanes.accompanist.coil.CoilImage
@@ -48,14 +49,23 @@ import dev.chrisbanes.accompanist.coil.CoilImage
 @ExperimentalFoundationApi
 @Composable
 fun DogMarketplace() {
+    var selectedSkills by remember { mutableStateOf(listOf<Skill>()) }
+
+    fun updateSkills(action: UpdateSkill) {
+        selectedSkills = when(action) {
+            is UpdateSkill.Add -> selectedSkills + action.skill
+            is UpdateSkill.Remove -> selectedSkills - action.skill
+        }
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar()
         HeaderText(header = "Featured Fooder")
         FeaturedSection()
         Spacer(modifier = Modifier.height(16.dp))
-        SkillSection()
+        SkillSection(::updateSkills)
         Spacer(modifier = Modifier.height(16.dp))
-        DogFeed()
+        DogFeed(selectedSkills)
     }
 }
 
@@ -69,7 +79,9 @@ fun HeaderText(header: String) {
 }
 
 @Composable
-fun SkillSection() {
+fun SkillSection(
+    action: (UpdateSkill) -> Unit
+) {
     val containerModifier = Modifier
         .fillMaxWidth()
         .height(60.dp)
@@ -144,8 +156,14 @@ fun SkillSection() {
                     .clip(shape = shapeForIndex(index, shapeRadius))
                     .clickable {
                         selectedState = when (selectedState) {
-                            SelectableTagState.Unselected -> SelectableTagState.Selected
-                            else -> SelectableTagState.Unselected
+                            SelectableTagState.Unselected -> {
+                                action(UpdateSkill.Add(skill))
+                                SelectableTagState.Selected
+                            }
+                            else -> {
+                                action(UpdateSkill.Remove(skill))
+                                SelectableTagState.Unselected
+                            }
                         }
                     },
                 contentAlignment = Alignment.Center
@@ -158,7 +176,8 @@ fun SkillSection() {
 
 @ExperimentalFoundationApi
 @Composable
-fun DogFeed() {
+fun DogFeed(skills: List<Skill>) {
+    val dogs = DogRepository.filteredDoggies(skills)
     LazyVerticalGrid(
         cells = GridCells.Fixed(2),
         modifier = Modifier
@@ -166,8 +185,8 @@ fun DogFeed() {
             .wrapContentHeight()
             .padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
     ) {
-        items(count = DogRepository.doggies.size) { index ->
-            val dog = DogRepository.doggies[index]
+        items(count = dogs.size) { index ->
+            val dog = dogs[index]
             Box(
                 modifier = Modifier
                     .fillMaxWidth()

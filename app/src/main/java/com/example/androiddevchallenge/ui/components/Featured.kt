@@ -26,6 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.data.DogRepository
 import com.example.androiddevchallenge.data.Skill
+import com.example.androiddevchallenge.features.Navigator
+import com.example.androiddevchallenge.features.Screen
 import com.example.androiddevchallenge.ui.theme.DoggoTheme
 import dev.chrisbanes.accompanist.coil.CoilImage
 
@@ -44,6 +46,9 @@ fun FeaturedSection() {
             modifier = Modifier
                 .fillMaxSize()
                 .clip(RoundedCornerShape(16.dp))
+                .clickable {
+                    Navigator.navigateTo(Screen.Profile(dog))
+                }
         )
         Box(
             modifier = Modifier
