@@ -171,7 +171,7 @@ fun DogFeed() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(275.dp)
+                    .height(250.dp)
                     .padding(4.dp)
             ) {
                 CoilImage(

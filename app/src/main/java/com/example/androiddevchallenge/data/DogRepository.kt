@@ -38,8 +38,18 @@ object DogRepository {
         KATE
     )
 
-    val featuredDog = BOB
+    val featuredDog = SORA
 }
+
+val SORA = Dog(
+    name = "Sora",
+    imageUrl = "https://i.pinimg.com/originals/fc/e0/39/fce0392efd39ced38bd6e0359e6e51b9.jpg",
+    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut " +
+            "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    rating = 5F,
+    hourlyRate = 30,
+    skills = listOf(Fetch, Sit, Stay)
+)
 
 val JEFF = Dog(
     name = "Jeff",
