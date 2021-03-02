@@ -53,12 +53,10 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.androiddevchallenge.TopBar
 import com.example.androiddevchallenge.data.DogRepository
 import com.example.androiddevchallenge.data.Skill
 import com.example.androiddevchallenge.data.UpdateSkill
-import com.example.androiddevchallenge.ui.components.FeaturedSection
-import com.example.androiddevchallenge.ui.components.SelectableTagState
+import com.example.androiddevchallenge.ui.components.TopBar
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 @ExperimentalFoundationApi
@@ -94,6 +92,48 @@ fun HeaderText(header: String) {
 }
 
 @Composable
+fun FeaturedSection() {
+    val dog = DogRepository.featuredDog
+    val boxModifier = Modifier
+        .fillMaxWidth()
+        .height(200.dp)
+        .padding(horizontal = 32.dp)
+    Box(modifier = boxModifier) {
+        CoilImage(
+            data = dog.imageUrl,
+            contentDescription = "Featured Doggo",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(16.dp))
+                .clickable {
+                    Navigator.navigateTo(Screen.Profile(dog))
+                }
+        )
+        Box(
+            modifier = Modifier
+                .wrapContentSize()
+                .padding(bottom = 12.dp, start = 12.dp)
+                .align(Alignment.BottomStart)
+                .alpha(.7f)
+                .background(color = Color.Black, shape = RoundedCornerShape(8.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = dog.name,
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp),
+                color = Color.White
+            )
+        }
+    }
+}
+
+enum class SelectedSkillState {
+    Selected,
+    Unselected,
+}
+
+@Composable
 fun SkillSection(
     action: (UpdateSkill) -> Unit
 ) {
@@ -122,40 +162,40 @@ fun SkillSection(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         Skill.values().forEachIndexed { index, skill ->
-            var selectedState by remember(index) { mutableStateOf(SelectableTagState.Unselected) }
+            var selectedState by remember(index) { mutableStateOf(SelectedSkillState.Unselected) }
             val transition = updateTransition(targetState = selectedState)
             val verticalPadding by transition.animateDp { state ->
                 when (state) {
-                    SelectableTagState.Unselected -> 4.dp
-                    SelectableTagState.Selected -> 0.dp
+                    SelectedSkillState.Unselected -> 4.dp
+                    SelectedSkillState.Selected -> 0.dp
                 }
             }
 
             val horizontalPadding by transition.animateDp { state ->
                 when (state) {
-                    SelectableTagState.Unselected -> 2.dp
-                    SelectableTagState.Selected -> 0.dp
+                    SelectedSkillState.Unselected -> 2.dp
+                    SelectedSkillState.Selected -> 0.dp
                 }
             }
 
             val backgroundColor by transition.animateColor { state ->
                 when (state) {
-                    SelectableTagState.Unselected -> skill.altColor
-                    SelectableTagState.Selected -> skill.color
+                    SelectedSkillState.Unselected -> skill.altColor
+                    SelectedSkillState.Selected -> skill.color
                 }
             }
 
             val textColor by transition.animateColor { state ->
                 when (state) {
-                    SelectableTagState.Unselected -> Color.Black
-                    SelectableTagState.Selected -> Color.White
+                    SelectedSkillState.Unselected -> Color.Black
+                    SelectedSkillState.Selected -> Color.White
                 }
             }
 
             val shapeRadius by transition.animateDp { state ->
                 when (state) {
-                    SelectableTagState.Unselected -> 12.dp
-                    SelectableTagState.Selected -> 16.dp
+                    SelectedSkillState.Unselected -> 12.dp
+                    SelectedSkillState.Selected -> 16.dp
                 }
             }
 
@@ -171,13 +211,13 @@ fun SkillSection(
                     .clip(shape = shapeForIndex(index, shapeRadius))
                     .clickable {
                         selectedState = when (selectedState) {
-                            SelectableTagState.Unselected -> {
+                            SelectedSkillState.Unselected -> {
                                 action(UpdateSkill.Add(skill))
-                                SelectableTagState.Selected
+                                SelectedSkillState.Selected
                             }
                             else -> {
                                 action(UpdateSkill.Remove(skill))
-                                SelectableTagState.Unselected
+                                SelectedSkillState.Unselected
                             }
                         }
                     },
